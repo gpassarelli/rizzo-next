@@ -1,0 +1,34 @@
+/// Returns a value from the $timing map from a given key
+///
+/// Contains a map to hold all of the possible timing values with a matching
+/// key. Avoid declaring a timing value in the CSS itself, but instead add
+/// another key-value pair to the map.
+///
+/// @param  {String} $key - Name of timing value
+/// @return {String}      - timing value
+/// @example
+/// .foo {
+///   transition: color timing("fast") ease-in-out;
+/// }
+@function timing($key: "default") {
+  $timing: (
+    "x-fast": 100ms,
+    "fast": 200ms,
+    "default": 400ms,
+    "slow": 800ms,
+  );
+
+  // 100ms
+  // 150ms as delay
+  // 200ms
+  // 300ms
+  // 500ms
+  // 1000ms as delay
+  // 3000ms
+
+  @if not map-has-key($timing, $key) {
+    @warn "Unknown `#{$key}` in $timing map. Property omitted.";
+  }
+
+  @return map-get($timing, $key);
+}
