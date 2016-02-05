@@ -1,3 +1,9 @@
+/// Removes units from a number string
+/// @param {string} $number The string to remove units from
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
 /// Convert a pixel value to an em value
 ///
 /// For a relational value, the input is calculated based on a parent value.

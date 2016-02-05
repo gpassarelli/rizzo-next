@@ -1,9 +1,3 @@
-/// Removes units from a number string
-/// @param {string} $number The string to remove units from
-@function strip-units($number) {
-  @return $number / ($number * 0 + 1);
-}
-
 /// Page min width
 $min-width: 32rem;
 /// Page max width
@@ -23,7 +17,7 @@ $serif: "Georgia", "Times", "Times New Roman", serif;
 $benton-sans: "Benton Sans", $sans-serif;
 $miller-daily: "Miller Daily", $serif;
 
-$font-size: #{strip-units($base-size)}rem;
+$font-size: 1.8rem;
 $font-color: #333;
 $font-color-light: #959aa0;
 $font-weight-light: 300;
