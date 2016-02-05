@@ -151,7 +151,7 @@ $navigation-sub-height-mobile: $header-height-mobile;
     font-weight: 400;
     padding: .2rem ($gutter / 2) 0;
     text-transform: uppercase;
-    transition: 300ms color ease-in;
+    transition: color 300ms ease-in;
 
     &--active {
       color: $color-blue;

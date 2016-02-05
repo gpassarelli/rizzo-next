@@ -44,7 +44,7 @@ $image-card-hover-movement: .5rem;
     list-style: none;
     opacity: 1;
     position: relative;
-    transition: 500ms transform ease-in-out;
+    transition: transform 500ms ease-in-out;
 
     @media (max-width: $max-840) {
       flex-wrap: wrap;
