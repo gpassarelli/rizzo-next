@@ -30,7 +30,7 @@
   &.is-visible {
     opacity: 1;
     transform: translateX(-15px);
-    transition: 200ms ease 150ms;
+    transition: ($animation-speed / 2) ease 150ms;
     visibility: visible;
   }
 }
@@ -54,7 +54,7 @@
   font-size: 1.6rem;
   font-weight: 600;
   line-height: (20 / 16);
-  transition: color 200ms ease;
+  transition: color ($animation-speed / 2) ease;
 }
 
 .poi-callout__content h5 {

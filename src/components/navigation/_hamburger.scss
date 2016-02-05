@@ -10,7 +10,7 @@
   padding: 0;
   position: relative;
   top: 15px;
-  transition: transform 400ms ease;
+  transition: transform $animation-speed ease;
   width: 50px;
   z-index: z("default") + 1;
 
@@ -38,7 +38,7 @@
   opacity: 1;
   transform: rotate(0) translateY(0) translateX(0);
   transform-origin: 20px 10px;
-  transition: transform 400ms ease-in-out, opacity 200ms ease-in-out;
+  transition: transform $animation-speed ease-in-out, opacity ($animation-speed / 2) ease-in-out;
 }
 
 .hamburger-menu__svg__toggle__bar:nth-of-type(1) {

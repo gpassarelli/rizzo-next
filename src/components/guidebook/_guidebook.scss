@@ -140,7 +140,7 @@
   box-shadow: 2rem 1rem 6rem rgba(#000, .4);
   display: inline-block;
   font-size: 0;
-  transition: 200ms transform;
+  transition: ($animation-speed / 2) transform;
   width: 60%;
 
   @media (min-width: $min-480) {

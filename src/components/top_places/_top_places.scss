@@ -210,7 +210,7 @@
   right: 0;
   top: 0;
   transform: translateY(15%);
-  transition: transform 400ms, opacity 400ms;
+  transition: transform $animation-speed, opacity $animation-speed;
   z-index: z("modal");
 
   @media (min-width: $min-720) {
@@ -262,7 +262,7 @@
       margin-left: (-$close-button-size / 2);
       text-align: center;
       top: 0;
-      transition: transform 400ms 1000ms;
+      transition: transform $animation-speed 1000ms;
       user-select: none;
       width: $close-button-size;
       z-index: z("modal") - 1;
@@ -272,7 +272,7 @@
   &--visible &__close {
     @media (min-width: $min-720) {
       transform: translateY(-($close-button-size + $gutter));
-      transition: transform 400ms 400ms;
+      transition: transform $animation-speed $animation-speed;
     }
   }
 

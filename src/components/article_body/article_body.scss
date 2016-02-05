@@ -121,7 +121,7 @@
       margin-bottom: 3.2rem !important;
       margin-top: 3.2rem !important;
       opacity: 0;
-      transition: opacity 200ms ease;
+      transition: opacity ($animation-speed / 2) ease;
       visibility: hidden;
 
       @media (min-width: $min-600) {
@@ -261,7 +261,7 @@
       position: relative;
       text-decoration: none;
       transform: translateZ(0);
-      transition: color 300ms, border-bottom 200ms ease;
+      transition: color $animation-speed, border-bottom ($animation-speed / 2) ease;
 
       &::before {
         background: #f0f0f0;
