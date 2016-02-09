@@ -50,9 +50,15 @@ export default class AdManager {
       enableSingleRequest: false,
       collapseEmptyDivs: true,
       afterEachAdLoaded: ($adunit, event) => {
+        // console.log($($adunit).attr("id"));
         this._adCallback.call(this, $adunit, event);
         this._afterEachAdLoaded($adunit);
-      }
+      }/*,
+      afterAdBlocked: ($adunit) => {
+        // console.log(`${$adunit[0].dataset.sizeMapping} has been blocked!`);
+        // console.log($($adunit));
+        console.log($($adunit).attr("id") + " blocked");
+      }*/
     };
 
     this.load();
