@@ -47,6 +47,11 @@
   }
 }
 
+.ad--full {
+  height: 100%;
+  width: 100%;
+}
+
 .ad--leaderboard__container {
   margin-left: auto;
   margin-right: auto;
@@ -60,6 +65,11 @@
 
 .adunit--superzone {
   @include container;
+}
+
+.adunit--mpu {
+  height: 25rem;
+  width: 30rem;
 }
 
 
@@ -115,4 +125,12 @@
 .masthead__ad .adunit--sponsor-logo-masthead {
   display: inline-block;
   margin-bottom: -.9rem; // reset inline-block margin
+}
+
+.pswp .adunit--slideshow {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
