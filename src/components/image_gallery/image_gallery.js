@@ -3,6 +3,7 @@ import $ from "jquery";
 import PhotoSwipe from "photoswipe";
 import PhotoSwipeUI_Default from "photoswipe/dist/photoswipe-ui-default";
 import track from "../../core/decorators/track";
+import publish from "../../core/decorators/publish";
 
 // Keep track of instance IDs
 let instanceId = 0;
@@ -75,7 +76,7 @@ export default class ImageGalleryComponent extends Component {
 
       if (youtubeID) {
         item.youtubeID = youtubeID;
-        item.html = "<div class='pswp__player' id='" + youtubeID + "'></div>";
+        item.html = `<div class="pswp__player" id="${youtubeID}"></div>`;
         item.title = null;
         item.src = null;
         item.msrc = null;
@@ -86,7 +87,6 @@ export default class ImageGalleryComponent extends Component {
 
     return items;
   }
-
 
   /**
    * Callback from photoswipe gallery close
@@ -100,6 +100,41 @@ export default class ImageGalleryComponent extends Component {
    */
   onGalleryChange() {
     this._youtubePlay(this._gallery.currItem);
+
+    console.log(this._gallery.options.getNumItemsFn(), this._gallery.items.length);
+
+    this.initFirstSlide();
+    this.initLastSlide();
+
+    let $ad = $(this._$pswp).find(".js-ad-slideshow");
+
+    console.log($ad.length);
+
+    if (!$ad.length) {
+      this.adsReloaded = false;
+    }
+
+    let isLastItem = this._gallery.getCurrentIndex() + 1 === this._gallery.options.getNumItemsFn();
+
+    if (isLastItem && !this.adsReloaded) {
+      this.reloadAds($ad);
+    }
+
+    console.log(this.adsReloaded);
+  }
+
+  @publish("reload", "ads")
+  reloadAds($ad) {
+    this.adsReloaded = true;
+    console.log("reloadAds");
+
+    if ($ad.length) {
+      $ad.data({
+        adType: "ajax",
+        targeting: null
+      })
+      .removeAttr("data-targeting");
+    }
   }
 
   /**
@@ -164,21 +199,96 @@ export default class ImageGalleryComponent extends Component {
 
     let options = {
       galleryUID: this.$el.attr("data-pswp-uid"),
-      getThumbBoundsFn: function(index) {
-        let thumbnail = items[index].el, // find thumbnail
-            pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
-            rect = thumbnail.getBoundingClientRect();
+      getThumbBoundsFn: function() { // (index)
+        // console.log(index);
+        // let thumbnail = items[index].el, // find thumbnail
+        //     pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+        //     rect = thumbnail.getBoundingClientRect();
 
-        return { x: rect.left, y: rect.top + pageYScroll, w: rect.width };
+        // return { x: rect.left, y: rect.top + pageYScroll, w: rect.width };
+        return false;
       },
       history: false,
       counterEl: false,
+      loop: false,
+      // preload: [0, 2],
       index
     };
 
     this._gallery = new PhotoSwipe( this.$pswp[0], PhotoSwipeUI_Default, items, options );
     this._gallery.listen("afterChange", this.onGalleryChange.bind(this));
     this._gallery.listen("close", this.onGalleryClose.bind(this));
+
+    // this._gallery.listen("gettingData", function(index, item) {
+    //   if(index === 3) {
+    //     item.html = "<div>Dynamically generated HTML " + Math.random() + "</div>";
+    //   }
+    // });
+
+    /*this._gallery.listen("preventDragEvent", function(e, isDown, preventObj) {
+      // e - original event
+      // isDown - true = drag start, false = drag release
+
+      // Line below will force e.preventDefault() on:
+      // touchstart/mousedown/pointerdown events
+      // as well as on:
+      // touchend/mouseup/pointerup events
+      preventObj.prevent = true;
+    });*/
+
     this._gallery.init();
+
+    // if ad is not pushed and ad blocker is OFF
+    if (!this.adPushed) {
+      this._gallery.items.push({
+        html: `<div class="ad ad--full js-ad-slideshow">
+          <div class="adunit adunit--mpu adunit--slideshow" data-size-mapping="mpu"></div>
+        </div>`
+      });
+
+      this.adPushed = true;
+    }
+
+    console.log(this._gallery.options.getNumItemsFn(), this._gallery.items.length);
+
+    // this.reloadAds();
+
+    // this._gallery.ui.update();
+  }
+
+  initFirstSlide() {
+    let slideCount = this._gallery.getCurrentIndex() + 1;
+    let $arrow = this._$pswp.find(".js-pswp-arrow-left");
+    if (slideCount === 1) {
+      // console.warn("First slide");
+      $arrow.prop("hidden", true);
+      // this._gallery.options.arrowKeys = false;
+
+      $(document).on("keyup", (event) => {
+        if (event.keyCode === 37) {
+          console.warn("left arrow pressed");
+          $(document).off("keyup");
+          event.preventDefault();
+          return false;
+        }
+      });
+
+    } else {
+      $arrow.prop("hidden", false);
+      // this._gallery.options.arrowKeys = true;
+    }
+  }
+
+  initLastSlide() {
+    let slideCount = this._gallery.getCurrentIndex() + 1;
+    let $arrow = this._$pswp.find(".js-pswp-arrow-right");
+    if (slideCount === this._gallery.options.getNumItemsFn()) {
+      // console.warn("Last slide");
+      // this._gallery.options.arrowKeys = false;
+      $arrow.prop("hidden", true);
+    } else {
+      $arrow.prop("hidden", false);
+      // this._gallery.options.arrowKeys = true;
+    }
   }
 }
